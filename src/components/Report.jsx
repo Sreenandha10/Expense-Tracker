@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Cart
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+
 const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const parts = String(dateString).split('-');
@@ -78,11 +79,15 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
             );
 
             const tableData = filteredData.map((t) => {
-                const categoryObj = Array.isArray(categories) ? categories.find((c) => c.id === t.categoryId) : null;
+                const categoryObj = Array.isArray(categories) 
+                    ? categories.find((c) => String(c.id) === String(t.categoryId)) 
+                    : null;
+                const categoryName = categoryObj?.name || (t.categoryId === 'OTHERS' ? 'Others' : 'General');
+                
                 return [
                     formatDate(t.date),
                     t.description || 'N/A',
-                    categoryObj ? categoryObj.name : 'General',
+                    categoryName,
                     t.type ? t.type.toUpperCase() : 'N/A',
                     `Rs. ${Number(t.amount || 0).toFixed(2)}`
                 ];
@@ -93,7 +98,7 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                 head: [['Date', 'Description', 'Category', 'Type', 'Amount']],
                 body: tableData.length > 0 ? tableData : [['-', 'No transactions recorded', '-', '-', '-']],
                 theme: 'grid',
-                headStyles: { fillColor: [25, 135, 84] } // Bootstrap Success Green
+                headStyles: { fillColor: [25, 135, 84] }
             });
 
             doc.save(`Expense_Report_${period.replace('/', '-')}.pdf`);
@@ -105,7 +110,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
 
     return (
         <div className="container py-4" data-bs-theme="dark">
-
             {/* Header Bar */}
             <div className="d-flex justify-content-between align-items-center bg-dark p-4 rounded-3 border border-secondary mb-4 shadow-sm">
                 <div className="d-flex align-items-center gap-3">
@@ -216,7 +220,7 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                 </div>
             )}
 
-            {/* Itemized Transactions Table with Scrollbar */}
+            {/* Itemized Transactions Table */}
             <div className="card bg-dark border-secondary p-4 shadow-sm">
                 <h5 className="fw-bold mb-3 text-white">
                     Itemized Transactions ({filteredData.length})
@@ -240,19 +244,18 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                             </thead>
                             <tbody>
                                 {filteredData.map((t) => {
-                                    const categoryObj = Array.isArray(categories) ? categories.find((c) => c.id === t.categoryId) : null;
+                                    // Soft ID matching (string conversion handles string vs number ID mismatches)
+                                    const categoryObj = Array.isArray(categories)
+                                        ? categories.find((c) => String(c.id) === String(t.categoryId))
+                                        : null;
+
                                     return (
                                         <tr key={t.id} className="border-secondary">
                                             <td className="text-muted small">{formatDate(t.date)}</td>
                                             <td className="fw-semibold">{t.description || 'N/A'}</td>
+                                            
+                                            {/* Category Column */}
                                             <td>
-                                                <span
-                                                    className="badge rounded-pill text-dark"
-                                                    style={{ backgroundColor: categoryObj?.color || '#6c757d' }}
-                                                >
-                                                    {categoryObj?.name || 'General'}
-                                                </span>
-                                            </td><td>
                                                 <span
                                                     className="badge rounded-pill text-dark"
                                                     style={{ backgroundColor: categoryObj?.color || '#6c757d' }}
@@ -260,11 +263,15 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                                                     {categoryObj?.name || (t.categoryId === 'OTHERS' ? 'Others' : 'General')}
                                                 </span>
                                             </td>
+
+                                            {/* Type Column */}
                                             <td>
                                                 <span className={`badge ${t.type === 'income' ? 'bg-success' : 'bg-danger'}`}>
                                                     {t.type ? t.type.toUpperCase() : 'N/A'}
                                                 </span>
                                             </td>
+
+                                            {/* Amount Column */}
                                             <td className={`text-end fw-bold ${t.type === 'income' ? 'text-success' : 'text-danger'}`}>
                                                 {t.type === 'income' ? '+' : '-'}₹{Number(t.amount || 0).toFixed(2)}
                                             </td>
@@ -276,7 +283,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                     </div>
                 )}
             </div>
-
         </div>
     );
 }

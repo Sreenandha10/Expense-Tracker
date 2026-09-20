@@ -94,7 +94,7 @@ export default function TransactionList({
                   {c.name}
                 </option>
               ))}
-            <option value="OTHERS">Others</option>
+            
           </select>
         </div>
 

@@ -101,9 +101,15 @@ export default function App() {
   }
 
   // Render reports page
-  if(currentPage==='reports'){
-    return <Reports transactions={transactions} onBack={()=>setCurrentPage('dashboard')}/>
-  }
+  if (currentPage === 'reports') {
+    return (
+        <Reports
+            transactions={transactions}
+            categories={categories}
+            onBack={() => setCurrentPage('dashboard')}
+        />
+    );
+}
 
   // Render Dashboard Page
   return (
