@@ -99,7 +99,7 @@ export default function TransactionForm({ isOpen, onClose, onSubmit, categories,
                     {categories.map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
-                    <option value="OTHERS">Others</option>
+                    
                   </select>
                 </div>
                 <div className="col-6">
