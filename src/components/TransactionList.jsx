@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { FaMagnifyingGlass, FaPenToSquare, FaTrashCan, FaXmark } from 'react-icons/fa6';
 
-// Helper function to format date cleanly (DD/MM/YY)
 const formatDate = (dateString) => {
   if (!dateString) return 'N/A';
   const parts = String(dateString).split('T')[0].split('-');
@@ -112,7 +111,6 @@ export default function TransactionList({
         </div>
       </div>
 
-      {/* Scrollable Data Table Container */}
       {loading ? (
         <div className="text-center py-5 text-muted">
           <div className="spinner-border spinner-border-sm me-2" role="status" />

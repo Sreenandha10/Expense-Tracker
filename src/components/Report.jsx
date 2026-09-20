@@ -20,7 +20,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
-    // Filter transactions based on selected month/year with safety checks
     const filteredData = useMemo(() => {
         if (!Array.isArray(transactions)) return [];
         return transactions.filter((t) => {
@@ -35,7 +34,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
         });
     }, [transactions, viewType, selectedYear, selectedMonth]);
 
-    // Calculate Summary Metrics
     const summary = useMemo(() => {
         const income = filteredData
             .filter((t) => t.type === 'income')
@@ -46,7 +44,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
         return { income, expense, net: income - expense };
     }, [filteredData]);
 
-    // Data for Yearly Bar Chart (12 Months Breakdown)
     const chartData = useMemo(() => {
         if (viewType === 'monthly' || !Array.isArray(transactions)) return [];
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -62,7 +59,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
         });
     }, [transactions, viewType, selectedYear]);
 
-    // Export PDF Function
     const exportPDF = () => {
         try {
             const doc = new jsPDF();
@@ -127,7 +123,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                 </button>
             </div>
 
-            {/* Filter Selection Controls */}
             <div className="card bg-dark border-secondary mb-4 p-3 shadow-sm">
                 <div className="d-flex flex-wrap gap-3 align-items-center">
                     <div className="d-flex align-items-center gap-2">
@@ -175,7 +170,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                 </div>
             </div>
 
-            {/* Metric Summary Cards */}
             <div className="row g-4 mb-4">
                 <div className="col-12 col-md-4">
                     <div className="card bg-dark border-success text-center p-4 shadow-sm h-100">
@@ -199,7 +193,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                 </div>
             </div>
 
-            {/* Recharts Bar Chart (Visible in Yearly View) */}
             {viewType === 'yearly' && (
                 <div className="card bg-dark border-secondary p-4 shadow-sm mb-4" style={{ height: '420px' }}>
                     <h5 className="fw-bold mb-4 text-white">Monthly Comparison ({selectedYear})</h5>
@@ -220,7 +213,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                 </div>
             )}
 
-            {/* Itemized Transactions Table */}
             <div className="card bg-dark border-secondary p-4 shadow-sm">
                 <h5 className="fw-bold mb-3 text-white">
                     Itemized Transactions ({filteredData.length})
@@ -244,7 +236,7 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                             </thead>
                             <tbody>
                                 {filteredData.map((t) => {
-                                    // Soft ID matching (string conversion handles string vs number ID mismatches)
+                                    
                                     const categoryObj = Array.isArray(categories)
                                         ? categories.find((c) => String(c.id) === String(t.categoryId))
                                         : null;
@@ -254,7 +246,6 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                                             <td className="text-muted small">{formatDate(t.date)}</td>
                                             <td className="fw-semibold">{t.description || 'N/A'}</td>
                                             
-                                            {/* Category Column */}
                                             <td>
                                                 <span
                                                     className="badge rounded-pill text-dark"
@@ -264,14 +255,12 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
                                                 </span>
                                             </td>
 
-                                            {/* Type Column */}
                                             <td>
                                                 <span className={`badge ${t.type === 'income' ? 'bg-success' : 'bg-danger'}`}>
                                                     {t.type ? t.type.toUpperCase() : 'N/A'}
                                                 </span>
                                             </td>
 
-                                            {/* Amount Column */}
                                             <td className={`text-end fw-bold ${t.type === 'income' ? 'text-success' : 'text-danger'}`}>
                                                 {t.type === 'income' ? '+' : '-'}₹{Number(t.amount || 0).toFixed(2)}
                                             </td>

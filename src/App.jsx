@@ -10,7 +10,6 @@ import Reports from './components/Report';
 const API_URL = 'https://expense-tracker-backend-3-ad6q.onrender.com';
 
 export default function App() {
-  // Page view state: 'welcome' | 'dashboard'
   const [currentPage, setCurrentPage] = useState('welcome');
 
   const [transactions, setTransactions] = useState([]);
@@ -95,12 +94,10 @@ export default function App() {
     }
   };
 
-  // Render Welcome Page first
   if (currentPage === 'welcome') {
     return <Welcome onGetStarted={() => setCurrentPage('dashboard')} />;
   }
 
-  // Render reports page
   if (currentPage === 'reports') {
     return (
         <Reports
@@ -111,12 +108,10 @@ export default function App() {
     );
 }
 
-  // Render Dashboard Page
   return (
     <div className="bg-body-tertiary min-vh-100 py-4" data-bs-theme="dark">
       <div className="container">
 
-        {/* Header Bar */}
         <div className="d-flex justify-content-between align-items-center bg-dark p-4 rounded-3 border border-secondary mb-4 shadow-sm">
           <div className="d-flex align-items-center gap-3">
             <button
@@ -144,10 +139,8 @@ export default function App() {
           </div>
         </div>
 
-        {/* Metrics Cards */}
         <SummaryCards metrics={metrics} />
 
-        {/* Main Content Layout */}
         <div className="row g-4">
           <div className="col-12 col-lg-8">
             <TransactionList
@@ -163,7 +156,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Modal Dialog */}
         <TransactionForm
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
