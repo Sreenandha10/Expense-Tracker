@@ -1,7 +1,7 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
-export default function AnalyticsChart({ transactions, categories }) {
+ function AnalyticsChart({ transactions, categories }) {
   const expenseData = categories
     .map((cat) => {
       const total = transactions
@@ -46,3 +46,5 @@ export default function AnalyticsChart({ transactions, categories }) {
     </div>
   );
 }
+
+export default  AnalyticsChart

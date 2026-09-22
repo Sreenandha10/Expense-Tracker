@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaWallet, FaCircleArrowUp, FaCircleArrowDown, FaChartLine } from 'react-icons/fa6'; 
 
-export default function SummaryCards({ metrics }) {
+ function SummaryCards({ metrics }) {
   return (
     <div className="row g-3 mb-4">
       <div className="col-12 col-sm-6 col-lg-3">
@@ -62,3 +62,5 @@ export default function SummaryCards({ metrics }) {
     </div>
   );
 }
+
+export default SummaryCards

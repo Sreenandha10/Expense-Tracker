@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function TransactionForm({ isOpen, onClose, onSubmit, categories, editingTransaction }) {
+ function TransactionForm({ isOpen, onClose, onSubmit, categories, editingTransaction }) {
   const [formData, setFormData] = useState({
     description: '',
     amount: '',
@@ -129,3 +129,5 @@ export default function TransactionForm({ isOpen, onClose, onSubmit, categories,
     </div>
   );
 }
+
+export default TransactionForm

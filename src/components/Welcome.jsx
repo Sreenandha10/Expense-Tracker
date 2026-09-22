@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaWallet, FaArrowRight, FaShieldHalved, FaChartPie, FaChartLine, FaWandMagicSparkles } from 'react-icons/fa6';
-export default function Welcome({ onGetStarted }) {
+
+ function Welcome({ onGetStarted }) {
   return (
     <div className="bg-dark text-white min-vh-100 d-flex flex-column justify-content-center align-items-center position-relative overflow-hidden py-5" data-bs-theme="dark">
       
@@ -87,3 +88,5 @@ export default function Welcome({ onGetStarted }) {
 </div>
   );
 }
+
+export default Welcome

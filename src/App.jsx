@@ -9,7 +9,7 @@ import Reports from './components/Report';
 
 const API_URL = 'https://expense-tracker-backend-3-ad6q.onrender.com';
 
-export default function App() {
+ function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
 
   const [transactions, setTransactions] = useState([]);
@@ -168,3 +168,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App

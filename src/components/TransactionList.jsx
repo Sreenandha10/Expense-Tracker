@@ -11,7 +11,7 @@ const formatDate = (dateString) => {
   return dateString;
 };
 
-export default function TransactionList({
+ function TransactionList({
   transactions = [],
   categories = [],
   onEdit,
@@ -186,3 +186,5 @@ export default function TransactionList({
     </div>
   );
 }
+
+export default TransactionList

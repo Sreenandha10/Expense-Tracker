@@ -15,7 +15,7 @@ const formatDate = (dateString) => {
     return dateString;
 };
 
-export default function Reports({ transactions = [], categories = [], onBack }) {
+ function Reports({ transactions = [], categories = [], onBack }) {
     const [viewType, setViewType] = useState('monthly');
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
@@ -275,3 +275,5 @@ export default function Reports({ transactions = [], categories = [], onBack }) 
         </div>
     );
 }
+
+export default Reports
